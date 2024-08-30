@@ -1,0 +1,22 @@
+{
+  "name": "01-express-simple-api",
+  "version": "1.0.0",
+  "description": "My first Api SImple",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev" : "nodemon src/index.js"
+  },
+  "keywords": [
+    "express"
+  ],
+  "author": "Juansubas",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  }
+}
