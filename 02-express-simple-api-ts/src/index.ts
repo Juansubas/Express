@@ -27,11 +27,11 @@ const readData = async () : Promise<User[]> => {
     
 }
 
-const writeData = async (data : any) : Promise<void> => {
+const writeData = async (data : User[]) : Promise<void> => {
     try {
         await fs.writeFile('./db/db.json', JSON.stringify(data));
-    } catch (error) {
-        console.error('Error Writing data', Error);
+    } catch (error : unknown) {
+        console.error('Error Writing data', error);
     }
 }
 
@@ -52,7 +52,12 @@ app.get('/users/:id', async (req: Request, res: Response) => {
         const user : User | undefined = data.find((user) => {
            return user.id === id;
         });
-        res.status(200).json(user);
+
+        if(user) {
+            res.status(200).json(user);
+        } else {
+            res.status(404).send('User not found');
+        }
     } catch (error : unknown) {
         console.error('Error', error);
         res.status(500).send('Internal Server Error');
@@ -83,13 +88,19 @@ app.put('/users/:id', async(req: Request, res: Response) => {
         const id : number = parseInt(req.params.id);
         const updateUser : Omit<User, 'id'> = req.body;
         const index : number = data.findIndex( user => user.id === id);
-        //data.splice(index, 1, {id , ...updateUser});
-        data[index] = {
-            id,
-            ...updateUser
-        };
-        await writeData(data);
-        res.status(200).json({ message: 'User Updated Successfully' });
+        if(index !==-1) {
+            //data.splice(index, 1, {id , ...updateUser});
+            data[index] = {
+                id,
+                ...updateUser
+            };
+            await writeData(data);
+            res.status(200).json({ message: 'User Updated Successfully' });
+        }else {
+            res.status(404).send('User not found');
+        }
+
+
     } catch (error : unknown) {
         console.error('Error', error);
         res.status(500).send('Internal Server Error');
@@ -101,9 +112,14 @@ app.delete('/users/:id', async(req: Request, res: Response) => {
         const id : number = parseInt(req.params.id);
         const data = await readData();
         const index : number = data.findIndex( user => user.id === id);
-        data.splice(index, 1);
-        await writeData(data);
-        res.status(200).json( {message: 'User deleted succesfully'});
+        if (index !== -1) {
+            data.splice(index, 1);
+            await writeData(data);
+            res.status(200).json( {message: 'User deleted succesfully'});
+        }else {
+            res.status(404).send('User not found');
+        }
+
     } catch (error : unknown) {
         console.error('Error', error);
         res.status(500).send('Internal Server Error');
