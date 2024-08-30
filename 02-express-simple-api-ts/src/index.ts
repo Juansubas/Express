@@ -69,6 +69,14 @@ app.post('/users', async (req: Request, res: Response) => {
     try {
         const data : User[] = await readData();
         const user : Omit<User, 'id'>= req.body;
+
+        //validacion data
+        if ( typeof user.name !== 'string' ||
+            typeof user.email !== 'string' ||
+            typeof user.age !== 'number' ||
+            typeof user.active !== 'boolean' 
+         ) return res.status(400).send('Invalid user data');
+
         const newUser : User = {
             id: data.length + 1,
             ...user
@@ -87,6 +95,14 @@ app.put('/users/:id', async(req: Request, res: Response) => {
         const data : User[] = await readData();
         const id : number = parseInt(req.params.id);
         const updateUser : Omit<User, 'id'> = req.body;
+
+        //validacion data
+        if ( typeof updateUser.name !== 'string' ||
+            typeof updateUser.email !== 'string' ||
+            typeof updateUser.age !== 'number' ||
+            typeof updateUser.active !== 'boolean' 
+            ) return res.status(400).send('Invalid user data');
+
         const index : number = data.findIndex( user => user.id === id);
         if(index !==-1) {
             //data.splice(index, 1, {id , ...updateUser});
