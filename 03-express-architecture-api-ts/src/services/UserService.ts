@@ -4,7 +4,7 @@ import { IFileService } from "../interfaces/IFileService";
 import { UserModel } from "../models/UserModel";
 import { UserRepository } from "../repositories/UserRepository";
 
-export class FileService implements IFileService<UserModel | void> {
+export class UserService implements IFileService<UserModel | void> {
 
     constructor(
         private userRepository : UserRepository = new UserRepository()
