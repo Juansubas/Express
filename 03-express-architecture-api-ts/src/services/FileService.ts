@@ -1,13 +1,30 @@
+import { responseDto } from "../dtos/responseDto";
+import { UserDto } from "../dtos/userDto";
 import { IFileService } from "../interfaces/IFileService";
-import { JsonUtils } from "../utils/jsonDataUtils";
+import { UserModel } from "../models/UserModel";
+import { UserRepository } from "../repositories/UserRepository";
 
-export class FileService<T> implements IFileService<T> {
-    
-    async readData(filePath: string): Promise<T[]> {
-        return await JsonUtils.readData<T>(filePath);
+export class FileService implements IFileService<UserModel | void> {
+
+    constructor(
+        private userRepository : UserRepository = new UserRepository()
+    ) {        
     }
 
-    async writeData(filePath: string, data: T[]): Promise<void> {
-        await JsonUtils.writeData<T> (filePath, data);
+    async getUsers(): Promise<responseDto<UserModel>> {
+        return await this.userRepository.getUsers();
     }
+    async getUserById(id: number): Promise<responseDto<UserModel>> {
+        return await this.userRepository.getUserById(id);
+    }
+    async createUser(userDto: UserDto): Promise<responseDto<void>> {
+        return await this.userRepository.createUser(userDto);
+    }
+    async updateUser(id: number, userDto: UserDto): Promise<responseDto<UserModel>> {
+        return await this.userRepository.updateUser(id, userDto);
+    }
+    async deleteUser(id: number): Promise<responseDto<void>> {
+        return await this.userRepository.deleteUser(id);
+    }
+
 }
