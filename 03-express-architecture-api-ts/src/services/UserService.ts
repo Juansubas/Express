@@ -1,10 +1,10 @@
 import { responseDto } from "../dtos/responseDto";
 import { UserDto } from "../dtos/userDto";
-import { IFileService } from "../interfaces/IFileService";
+import { IUserService } from "../interfaces/IUserService";
 import { UserModel } from "../models/UserModel";
 import { UserRepository } from "../repositories/UserRepository";
 
-export class UserService implements IFileService<UserModel | void> {
+export class UserService implements IUserService<UserModel | void> {
 
     constructor(
         private userRepository : UserRepository = new UserRepository()

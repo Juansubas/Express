@@ -1,7 +1,7 @@
 import { responseDto } from "../dtos/responseDto";
 import { UserDto } from "../dtos/userDto";
 
-export interface IFileService <T> {
+export interface IUserService <T> {
 
     getUsers(): Promise<responseDto<T>> ;
     getUserById(int : number): Promise<responseDto<T>> ;
