@@ -4,27 +4,36 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 async function main() {
-    const newUser = await prisma.user.create({
-        data: {
-            name: "Joe",
-            email: "Joe123@gmail.com"
-        }
-    });
-    console.log(newUser);
+    // const newUser = await prisma.user.create({
+    //     data: {
+    //         name: "Donna",
+    //         email: "Donna123@gmail.com",
+    //         posts: {
+    //             create: {
+    //                 title: "Donna Publicacion",
+    //                 content: "A donna le gusta las publicaciones"
+    //             }
+    //         }
+    //     }
+    // });
+    // console.log(newUser);
 
-    const newPost = await prisma.post.create({
-        data: {
-            title: "Mi primer publicacion",
-            content: "Este es mi primer posts",
-            author: {
-                connect: {
-                    id: newUser.id
-                }
-            }
-        }
-    });
+    // const users = await prisma.user.findMany({
+    //     include: {
+    //         posts: true
+    //     }
+    // });
 
-    console.log(newPost);
+    // users.forEach(user => {
+    //     console.log('----------');
+    //     console.log(`User: ${user.name}`);
+    //     console.log(`Email: ${user.email}`);
+
+    //     user.posts.forEach((post, i) => {
+    //         console.log(`${i}. ${post.title} ${post.content}`);
+    //     })
+    // })
+
 }
 
 
