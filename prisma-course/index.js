@@ -6,18 +6,26 @@ const prisma = new PrismaClient();
 async function main() {
     // const newUser = await prisma.user.create({
     //     data: {
-    //         name: "Juan",
-    //         email: "juan@gmail.com"
+    //         name: "Martha",
+    //         email: "Martha200@gmail.com"
     //     }
     // });
     // console.log(newUser);
 
-    const users = await prisma.user.findMany();
-    console.log(users);
-
-    users.map(user => {
-        console.log(`${user.id} - ${user.name}`)
+    const user = await prisma.user.upsert({
+        where: {
+            email: 'john@gmail.com'
+        },
+        create: {
+            email: 'john@gmail.com',
+            name: 'john'
+        },
+        update: {
+            lastname: 'Carter'
+        }
     });
+
+    console.log(user)
 }
 
 
