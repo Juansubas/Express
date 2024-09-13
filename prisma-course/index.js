@@ -4,28 +4,27 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 async function main() {
-    // const newUser = await prisma.user.create({
-    //     data: {
-    //         name: "Martha",
-    //         email: "Martha200@gmail.com"
-    //     }
-    // });
-    // console.log(newUser);
+    const newUser = await prisma.user.create({
+        data: {
+            name: "Joe",
+            email: "Joe123@gmail.com"
+        }
+    });
+    console.log(newUser);
 
-    const user = await prisma.user.upsert({
-        where: {
-            email: 'john@gmail.com'
-        },
-        create: {
-            email: 'john@gmail.com',
-            name: 'john'
-        },
-        update: {
-            lastname: 'Carter'
+    const newPost = await prisma.post.create({
+        data: {
+            title: "Mi primer publicacion",
+            content: "Este es mi primer posts",
+            author: {
+                connect: {
+                    id: newUser.id
+                }
+            }
         }
     });
 
-    console.log(user)
+    console.log(newPost);
 }
 
 
