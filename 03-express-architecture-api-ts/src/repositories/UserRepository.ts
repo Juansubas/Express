@@ -3,6 +3,7 @@ import { IUserRepository } from "../interfaces/IUserRepository";
 import { UserModel } from "../models/UserModel";
 import { JsonUtils } from "../utils/jsonDataUtils";
 import { responseDto } from "../dtos/responseDto";
+import dotenv from 'dotenv'
 
 export class UserRepository implements IUserRepository <UserModel | void>{
 
