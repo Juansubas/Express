@@ -9,7 +9,7 @@ export class UserRepository implements IUserRepository {
         private readonly prisma : PrismaClient
     ){}
 
-    async getUser(): Promise<UserModel[]> {
+    async getUsers(): Promise<UserModel[]> {
         try {
             const users : UserModel[] = await this.prisma.user.findMany();
             return users;

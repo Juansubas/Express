@@ -1,4 +1,4 @@
-import { ResponseStatus } from "../enums/ResponseStatus";
+import { ResponseStatus } from "../enums/response-status.enum";
 
 export class ResponseDto <T> {
     constructor(
