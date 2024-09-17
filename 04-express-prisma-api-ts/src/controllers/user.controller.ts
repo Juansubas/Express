@@ -1,5 +1,6 @@
 import { CreateUserDto } from "../dtos/user/create-user.dto";
 import { UpdateUserDto } from "../dtos/user/update-user.dto";
+import { UserDto } from "../dtos/user/user.dto";
 import { UserService } from "../services/user-service";
 import { Request, Response } from "express";
 
@@ -12,7 +13,8 @@ export default class UserController {
 
     async getUsers(req : Request, res : Response): Promise<void> {
         try {
-            res.status(200).json(await this.userService.getUsers())
+            const users : UserDto[] = await this.userService.getUsers();
+            res.status(200).json(users);
         } catch (error : unknown) {
             console.error('error', error);
             res.status(500).send({ message: 'Internal Server Error'});
@@ -21,7 +23,8 @@ export default class UserController {
     async getUserById(req : Request, res : Response): Promise<void> {
         try {
             const id : number = parseInt(req.params.id);
-            res.status(200).json(await this.userService.getUserById(id))
+            const user : UserDto | null = await this.userService.getUserById(id)
+            res.status(200).json(user);
         } catch (error : unknown) {
             console.error('error', error);
             res.status(500).send({ message: 'Internal Server Error'});

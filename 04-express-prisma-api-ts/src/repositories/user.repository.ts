@@ -1,6 +1,6 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, User } from "@prisma/client";
 import { IUserRepository } from "../interfaces/user-repository.interface";
-import UserModel from "../entities/user.entity";
+import UserEntity from "../entities/user.entity";
 
 
 export class UserRepository implements IUserRepository {
@@ -9,9 +9,9 @@ export class UserRepository implements IUserRepository {
         private readonly prisma : PrismaClient
     ){}
 
-    async getUsers(): Promise<UserModel[]> {
+    async getUsers(): Promise<UserEntity[]> {
         try {
-            const users : UserModel[] = await this.prisma.user.findMany();
+            const users : UserEntity[] = await this.prisma.user.findMany();
             return users;
         } catch (error : unknown) {
             console.error('Error getting users', error);
@@ -19,9 +19,9 @@ export class UserRepository implements IUserRepository {
         }
     }
 
-    async getUserById(id: number): Promise<UserModel | null> {
+    async getUserById(id: number): Promise<UserEntity | null> {
         try {
-            const user : UserModel | null = await this.prisma.user.findUnique({
+            const user : UserEntity | null = await this.prisma.user.findUnique({
                 where: {
                     id: id
                 }
@@ -33,7 +33,22 @@ export class UserRepository implements IUserRepository {
             throw new Error('Error fetching user from the database');
         }
     }
-    async createUser(user: UserModel): Promise<void> {
+
+    async getUserByEmail(email: string): Promise<UserEntity | null> {
+        try {
+            const user : UserEntity | null = await this.prisma.user.findUnique({
+                where: {
+                    email: email
+                }
+            })
+
+            return user;
+        } catch (error : unknown) {
+            console.error('Error fetching user', error);
+            throw new Error('Error fetching user from the database');
+        }
+    }
+    async createUser(user: UserEntity): Promise<void> {
         try {
             await this.prisma.user.create({
                 data: {
@@ -55,7 +70,7 @@ export class UserRepository implements IUserRepository {
             throw new Error('Error creating user from the database')
         }
     }
-    async updateUser(userUpdate: UserModel): Promise<void> {
+    async updateUser(userUpdate: UserEntity): Promise<void> {
         throw new Error("Method not implemented.");
     }
     async deleteUser(id: number): Promise<void> {
