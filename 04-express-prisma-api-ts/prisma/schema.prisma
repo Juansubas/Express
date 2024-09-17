@@ -12,3 +12,33 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id  Int @id @default(autoincrement())
+  firstName String
+  lastName String 
+  userName String
+  email String @unique
+  password String 
+  phoneNumber String 
+  age Int
+  dateOfBirth DateTime 
+  country String
+  address String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  tasks Task[] 
+}
+
+model Task {
+  id Int @id @default(autoincrement())
+  userId Int
+  title String
+  content String
+  complete Boolean @default(false)
+  date DateTime @default(now())
+  dueDate DateTime?
+  user User @relation(fields: [userId], references: [id])
+
+}
