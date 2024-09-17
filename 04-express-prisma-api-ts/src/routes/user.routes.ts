@@ -10,16 +10,15 @@ const userService = new UserService(userRepository);
 const userController = new UserController(userService);
 const authController = new AuthController(userService);
 
-const router = Router();
+const userRouter = Router();
 
 
-router.get('/users', (req: Request, res: Response) => userController.getUsers(req, res));
-router.get('/users/:id', (req: Request, res: Response) => userController.getUserById(req, res));
-router.post('/users', (req: Request, res: Response) => userController.createUser(req, res));
-
-//Auth
-router.post('/login', (req: Request, res: Response) => authController.login(req, res));
+userRouter.get('/users', (req: Request, res: Response) => userController.getUsers(req, res));
+userRouter.get('/users/:id', (req: Request, res: Response) => userController.getUserById(req, res));
+userRouter.post('/users', (req: Request, res: Response) => userController.createUser(req, res));
 
 
 
-export default router;
+
+
+export default userRouter;

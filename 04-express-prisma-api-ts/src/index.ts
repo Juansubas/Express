@@ -1,10 +1,12 @@
 import express from 'express';
-import router from './routes/user.routes';
+import userRouter from './routes/user.routes';
+import authRouter from './routes/auth.routes';
 
 const app = express();
 
 app.use(express.json());
-app.use('/api', router);
+app.use('/api', userRouter);
+app.use('/api', authRouter);
 
 const port : number = 3000; 
 

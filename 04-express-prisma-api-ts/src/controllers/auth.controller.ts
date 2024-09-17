@@ -8,9 +8,9 @@ export class AuthController {
     async login(req: Request, res: Response) {
         try {
             const data : LoginUserDto = req.body;
-            const isValid = await this.userService.validateUser(data);
+            const token: string | null = await this.userService.validateUser(data);
 
-            if (isValid) {
+            if (token) {
                 res.status(200).send({ message: 'Login successful' });
             } else {
                 res.status(401).send({ message: 'Invalid credentials' });

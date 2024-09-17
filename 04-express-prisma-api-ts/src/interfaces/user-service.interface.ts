@@ -10,5 +10,5 @@ export interface IUserService {
     updateUser(userUpdate: UpdateUserDto): Promise<void>;
     deleteUser(id: number): Promise<void>;
     
-    validateUser(userLoginDto: LoginUserDto) : Promise<boolean>;
+    validateUser(userLoginDto: LoginUserDto) : Promise<string | null>;
 }

@@ -5,7 +5,10 @@ import { UserDto } from "../dtos/user/user.dto";
 import UserEntity from "../entities/user.entity";
 import { IUserService } from "../interfaces/user-service.interface";
 import { UserRepository } from "../repositories/user.repository";
+import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
+import * as dotenv from 'dotenv';
+dotenv.config();
 
 export class UserService implements IUserService {
 
@@ -81,16 +84,20 @@ export class UserService implements IUserService {
         throw new Error("Method not implemented.");
     }
 
-    async validateUser(userLoginDto: LoginUserDto): Promise<boolean> {
+    async validateUser(userLoginDto: LoginUserDto): Promise<string | null> {
         const user : UserEntity | null  = await this.userRepository.getUserByEmail(userLoginDto.email);
-        if(!user) {
-            return false;
+        if (user) {
+            // Verifica que la contraseña sea correcta
+            const isPasswordValid = await bcrypt.compare(userLoginDto.password, user.password);
+            
+            if (isPasswordValid) {
+                // Si la contraseña es correcta, generar un token JWT
+                const token = jwt.sign({ id: user.id, email: user.email }, 'G$%7nFHkW2!8@fSnLzQj7#T$P&6w4VzN', { expiresIn: '1h' });
+                return token;
+            }
         }
 
-        //Comparacion passwords
-        const isMatch  = await bcrypt.compare(userLoginDto.password, user.password);
-
-        return isMatch ;
+        return null ;
         
     }
 
