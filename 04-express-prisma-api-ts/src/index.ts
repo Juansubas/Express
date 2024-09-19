@@ -6,9 +6,9 @@ import taskRouter from './routes/task.routes';
 const app = express();
 
 app.use(express.json());
-app.use('/api', userRouter);
-app.use('/api', authRouter);
-app.use('/api', taskRouter);
+app.use('/api/users', userRouter);
+app.use('/api/auth', authRouter);
+app.use('/api/tasks', taskRouter);
 
 const port : number = 3000; 
 

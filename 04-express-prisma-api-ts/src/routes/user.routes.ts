@@ -4,6 +4,7 @@ import prisma from "../config/prisma-client";
 import { UserService } from "../services/user-service";
 import UserController from "../controllers/user.controller";
 import { AuthController } from "../controllers/auth.controller";
+import { authenticateToken } from "../middleware/auth.middleware";
 
 const userRepository = new UserRepository(prisma);
 const userService = new UserService(userRepository);
@@ -12,10 +13,12 @@ const authController = new AuthController(userService);
 
 const userRouter = Router();
 
+userRouter.post('/', (req: Request, res: Response) => userController.createUser(req, res));
 
-userRouter.get('/users', (req: Request, res: Response) => userController.getUsers(req, res));
-userRouter.get('/users/:id', (req: Request, res: Response) => userController.getUserById(req, res));
-userRouter.post('/users', (req: Request, res: Response) => userController.createUser(req, res));
+userRouter.use(authenticateToken);
+
+userRouter.get('/', (req: Request, res: Response) => userController.getUsers(req, res));
+userRouter.get('/:id', (req: Request, res: Response) => userController.getUserById(req, res));
 
 
 export default userRouter;

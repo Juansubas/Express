@@ -7,8 +7,6 @@ import { IUserService } from "../interfaces/user-service.interface";
 import { UserRepository } from "../repositories/user.repository";
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
-import * as dotenv from 'dotenv';
-dotenv.config();
 
 export class UserService implements IUserService {
 
@@ -92,9 +90,14 @@ export class UserService implements IUserService {
             
             if (isPasswordValid) {
                 // Si la contraseña es correcta, generar un token JWT
-                const token = jwt.sign({ id: user.id, email: user.email }, 'G$%7nFHkW2!8@fSnLzQj7#T$P&6w4VzN', { expiresIn: '1h' });
+                const token = jwt.sign(
+                    { id: user.id, email: user.email }, 
+                    process.env.JWT_SECRET || 'defaultSecretKey',
+                    { expiresIn: '1h' }
+                );
                 return token;
             }
+            
         }
 
         return null ;
