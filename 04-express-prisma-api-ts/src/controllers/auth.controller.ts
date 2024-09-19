@@ -8,6 +8,11 @@ export class AuthController {
     async login(req: Request, res: Response) {
         try {
             const data : LoginUserDto = req.body;
+
+            if (!data.email || !data.password) {
+                return res.status(400).json({ message: "Username and password are required" });
+              }
+            
             const token: string | null = await this.userService.validateUser(data);
 
             if (token) {

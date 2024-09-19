@@ -1,4 +1,4 @@
-export default class TaskEntity {
+export default class TaskDto {
 
     constructor(
         public id: number, 
