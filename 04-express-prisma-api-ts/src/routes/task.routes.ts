@@ -11,6 +11,7 @@ const taskRepository : TaskRepository = new TaskRepository(prisma);
 const taskService : TaskService = new TaskService(taskRepository);
 const taskController : TaskController = new TaskController(taskService);
 
+
 taskRouter.use(authenticateToken);
 
 taskRouter.get('/', (req : Request, res: Response) => taskController.getTasks(req, res));

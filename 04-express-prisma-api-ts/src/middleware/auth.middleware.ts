@@ -26,6 +26,8 @@ export function authenticateToken(req: Request, res: Response, next: NextFunctio
             return res.status(403).json({ message: 'Invalid Token' });
         }
 
+        console.log(decoded)
+
         req.user = decoded as JwtPayload;
         next();
     });

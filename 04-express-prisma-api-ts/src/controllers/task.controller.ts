@@ -15,6 +15,7 @@ export class TaskController{
     async getTasks(req: Request, res: Response): Promise<Response<ResponseDto<TaskDto[]>>>{
         try {
             const userId : number | undefined = req.user?.userId; // Obtener userId del claim del token aun pendiente
+            console.log("userId", userId);
 
             if (!userId) {
                 return res.status(401).json(new ResponseDto(null, 'User ID not found', ResponseStatus.Error));

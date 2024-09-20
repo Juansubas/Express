@@ -36,8 +36,8 @@ export class AuthController {
               token: token,
               email: data.email,
             },
-            "Invalid credentials",
-            ResponseStatus.Error
+            "Credentials",
+            ResponseStatus.Success
           )
         );
       } else {
