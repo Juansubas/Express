@@ -56,13 +56,12 @@ export class UserRepository implements IUserRepository {
                     lastName: user.lastName,
                     userName: user.userName,
                     email: user.email,
-                    password: user.password,  // Suponiendo que el password se necesita
+                    password: user.password,  
                     phoneNumber: user.phoneNumber,
                     age: user.age,
                     dateOfBirth: user.dateOfBirth,
                     country: user.country,
                     address: user.address
-                    // No incluyas id, createdAt, updatedAt, o tasks
                 }
             })
         } catch (error : unknown) {
@@ -71,10 +70,39 @@ export class UserRepository implements IUserRepository {
         }
     }
     async updateUser(userUpdate: UserEntity): Promise<void> {
-        throw new Error("Method not implemented.");
+        try {
+            await this.prisma.user.update({
+                where: {
+                    id: userUpdate.id
+                },
+                data: {
+                    firstName : userUpdate.firstName,
+                    lastName : userUpdate.lastName,
+                    userName : userUpdate.userName,
+                    email : userUpdate.email,
+                    phoneNumber : userUpdate.phoneNumber,
+                    age : userUpdate.age,
+                    dateOfBirth : userUpdate.dateOfBirth,
+                    country : userUpdate.country,
+                    address : userUpdate.address
+                }
+            });
+        } catch (error : unknown) {
+            console.error('Error Updating User', error);
+            throw new Error('Error Updating User');
+        }
     }
     async deleteUser(id: number): Promise<void> {
-        throw new Error("Method not implemented.");
+        try {
+            await this.prisma.user.delete({
+                where: {
+                    id: id
+                }
+            });
+        } catch (error : unknown) {
+            console.error('Error Deleting User', error);
+            throw new Error('Error Deleting User');
+        }
     }
 
 }

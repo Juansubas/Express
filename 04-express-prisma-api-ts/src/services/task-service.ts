@@ -11,8 +11,8 @@ export class TaskService implements ITaskService{
         private readonly taskRepository : TaskRepository,
     ){}
 
-    async getTasks(): Promise<TaskDto[]> {
-        const tasks : TaskEntity [] = await this.taskRepository.getTasks();
+    async getTasks(userId : number): Promise<TaskDto[]> {
+        const tasks : TaskEntity [] = await this.taskRepository.getTasks(userId);
         const tasksDto : TaskDto[] = tasks.map(task => {
             return new TaskDto(
                 task.id,
@@ -26,8 +26,8 @@ export class TaskService implements ITaskService{
         })
         return tasksDto;
     }
-    async getTaskById(id: number): Promise<TaskDto | null> {
-        const task : TaskEntity | null = await this.taskRepository.getTaskById(id);
+    async getTaskById(userId : number, id: number): Promise<TaskDto | null> {
+        const task : TaskEntity | null = await this.taskRepository.getTaskById(userId, id);
         if(task) {
             return new TaskDto(
                 task.id,
@@ -45,10 +45,10 @@ export class TaskService implements ITaskService{
     async createTask(idUser: number, user: CreateTaskDto): Promise<void> {
         await this.taskRepository.createTask(idUser, user);
     }
-    updateTask(userUpdate: UpdateTaskDto): Promise<void> {
+    async updateTask(userId : number, userUpdate: UpdateTaskDto): Promise<void> {
         throw new Error("Method not implemented.");
     }
-    deleteTask(id: number): Promise<void> {
+    async deleteTask(userId : number, id: number): Promise<void> {
         throw new Error("Method not implemented.");
     }
 

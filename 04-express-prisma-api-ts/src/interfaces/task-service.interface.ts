@@ -3,10 +3,10 @@ import TaskDto from "../dtos/task/task.dto";
 import { UpdateTaskDto } from "../dtos/task/update-task.dto";
 
 export interface ITaskService {
-    getTasks(): Promise<TaskDto[]>;
-    getTaskById(id: number): Promise<TaskDto | null>;
+    getTasks(userId : number): Promise<TaskDto[]>;
+    getTaskById(userId : number, id: number): Promise<TaskDto | null>;
     createTask(idUser: number, user: CreateTaskDto): Promise<void>;
-    updateTask(userUpdate: UpdateTaskDto): Promise<void>;
-    deleteTask(id: number): Promise<void>;
+    updateTask(userId : number, userUpdate: UpdateTaskDto): Promise<void>;
+    deleteTask(userId : number, id: number): Promise<void>;
 }
 

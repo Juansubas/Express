@@ -1,6 +1,9 @@
+import { ResponseDto } from "../dtos/response.dto";
+import { UpdateTaskDto } from "../dtos/task/update-task.dto";
 import { CreateUserDto } from "../dtos/user/create-user.dto";
 import { UpdateUserDto } from "../dtos/user/update-user.dto";
 import { UserDto } from "../dtos/user/user.dto";
+import { ResponseStatus } from "../enums/response-status.enum";
 import { UserService } from "../services/user-service";
 import { Request, Response } from "express";
 
@@ -11,38 +14,55 @@ export default class UserController {
     ) {
     }
 
-    async getUsers(req : Request, res : Response): Promise<void> {
+    async getUsers(req : Request, res : Response) : Promise<Response<ResponseDto<UserDto[]>>> {
         try {
             const users : UserDto[] = await this.userService.getUsers();
-            res.status(200).json(users);
+            return res.status(200).json(new ResponseDto(users, 'Users Obtained Successfully', ResponseStatus.Success));
         } catch (error : unknown) {
             console.error('error', error);
-            res.status(500).send({ message: 'Internal Server Error'});
+            return res.status(500).json(new ResponseDto(null, 'Internal Server Error', ResponseStatus.Error))
         }
     }
-    async getUserById(req : Request, res : Response): Promise<void> {
+    async getUserById(req : Request, res : Response): Promise<Response<ResponseDto<UserDto>>> {
         try {
             const id : number = parseInt(req.params.id);
             const user : UserDto | null = await this.userService.getUserById(id)
-            res.status(200).json(user);
+            return res.status(200).json(new ResponseDto(user, 'User Obtained Successfully', ResponseStatus.Success));
         } catch (error : unknown) {
             console.error('error', error);
-            res.status(500).send({ message: 'Internal Server Error'});
+            return res.status(500).json(new ResponseDto(null, 'Internal Server Error', ResponseStatus.Error))
         }
     }
-    async createUser(req : Request, res : Response): Promise<void> {
+    async createUser(req : Request, res : Response): Promise<Response<ResponseDto<void>>> {
         try {
             const user : CreateUserDto = req.body;
-            res.status(200).json(await this.userService.createUser(user))
+            await this.userService.createUser(user);
+            return res.status(200).json(new ResponseDto(null, 'Created Task Successfully', ResponseStatus.Success));
         } catch (error : unknown) {
             console.error('error', error);
-            res.status(500).send({ message: 'Internal Server Error'});
+            return res.status(500).json(new ResponseDto(null, 'Internal Server Error', ResponseStatus.Error))
         }
     }
-    async updateUser(userUpdate: UpdateUserDto): Promise<void> {
-        throw new Error("Method not implemented.");
+    async updateUser(req: Request, res: Response): Promise<Response<ResponseDto<void>>> {
+        try {
+            const id : number = parseInt(req.params.id);
+            const userUpdate : UpdateUserDto = { id, ...req.body};
+            await this.userService.updateUser(userUpdate);
+
+            return res.status(200).json(new ResponseDto(null, 'Updating User Successfully', ResponseStatus.Success));
+        } catch (error : unknown) {
+            console.error('error', error);
+            return res.status(500).json(new ResponseDto(null, 'Internal Server Error', ResponseStatus.Error))
+        }
     }
-    async deleteUser(id: number): Promise<void> {
-        throw new Error("Method not implemented.");
+    async deleteUser(req : Request, res: Response): Promise<Response<ResponseDto<null>>> {
+        try {
+            const id : number = parseInt(req.params.id);
+            await this.userService.deleteUser(id);
+            return res.status(200).json(new ResponseDto(null, 'User Deleted Successfully', ResponseStatus.Success));
+        } catch (error : unknown) {
+            console.error('error', error);
+            return res.status(500).json(new ResponseDto(null, 'Internal Server Error', ResponseStatus.Error))
+        }
     }
 }

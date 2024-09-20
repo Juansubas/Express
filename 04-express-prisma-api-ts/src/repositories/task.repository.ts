@@ -10,9 +10,13 @@ export class TaskRepository implements ITaskRepository {
         private readonly prisma : PrismaClient
     ){}
 
-    async getTasks(): Promise<TaskEntity[]> {
+    async getTasks(userId : number): Promise<TaskEntity[]> {
         try {
-            const tasks : TaskEntity[] = await this.prisma.task.findMany();
+            const tasks : TaskEntity[] = await this.prisma.task.findMany({
+                where: {
+                    userId: userId
+                }
+            });
             return tasks;
         } catch (error : unknown) {
             console.error('Error getting tasks', error);
@@ -20,15 +24,16 @@ export class TaskRepository implements ITaskRepository {
         }
     }
 
-    async getTaskById(id: number): Promise<TaskEntity | null> {
+    async getTaskById(userId : number, id: number): Promise<TaskEntity | null> {
         try {
-            const user : TaskEntity | null = await this.prisma.task.findUnique({
+            const task : TaskEntity | null = await this.prisma.task.findUnique({
                 where: {
-                    id: id
+                    id: id,
+                    userId : userId
                 }
             })
 
-            return user;
+            return task;
         } catch (error : unknown) {
             console.error('Error getting user', error);
             throw new Error('Error fetching user from database');
@@ -45,15 +50,41 @@ export class TaskRepository implements ITaskRepository {
                     dueDate: task.dueDate
                 }
             });
+
         } catch (error : unknown) {
             console.error('Error Creating Task', error);
-            throw new Error('Error Creating User from the database');
         }
     }
-    updateTask(userUpdate: UpdateTaskDto): Promise<void> {
-        throw new Error("Method not implemented.");
+    async updateTask(userId : number, taskUpdate: UpdateTaskDto): Promise<void> {
+        try {
+            await this.prisma.task.update({
+                where: {
+                    id: taskUpdate.id,
+                    userId: userId
+                },
+                data: {
+                    title: taskUpdate.title,
+                    content: taskUpdate.content,
+                    dueDate: taskUpdate.dueDate
+                }
+            });
+        } catch (error : unknown) {
+            console.error('Error Updating Task', error);
+            throw new Error('Error Updating Task');
+        }
     }
-    deleteTask(id: number): Promise<void> {
-        throw new Error("Method not implemented.");
+    async deleteTask(userId : number, id: number): Promise<void> {
+        try {
+            await this.prisma.task.delete({
+                where: {
+                    id: id,
+                    userId: userId
+                }
+            });
+
+        } catch (error : unknown) {
+            console.error('Error Deleting Task', error);
+            throw new Error('Error Deleting Task');
+        }
     }
 }
