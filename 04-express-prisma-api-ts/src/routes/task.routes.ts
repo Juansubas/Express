@@ -17,5 +17,7 @@ taskRouter.use(authenticateToken);
 taskRouter.get('/', (req : Request, res: Response) => taskController.getTasks(req, res));
 taskRouter.get('/:id', (req : Request, res: Response) => taskController.getTaskById(req, res));
 taskRouter.post('/', (req : Request, res: Response) => taskController.createTask(req, res));
+taskRouter.put('/:id', (req : Request, res: Response) => taskController.updateTask(req, res));
+taskRouter.delete('/:id', (req : Request, res: Response) => taskController.deleteTask(req, res));
 
 export default taskRouter;

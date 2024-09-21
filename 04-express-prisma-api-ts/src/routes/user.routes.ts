@@ -19,6 +19,8 @@ userRouter.use(authenticateToken);
 
 userRouter.get('/', (req: Request, res: Response) => userController.getUsers(req, res));
 userRouter.get('/:id', (req: Request, res: Response) => userController.getUserById(req, res));
+userRouter.put('/:id', (req: Request, res: Response) => userController.updateUser(req, res));
+userRouter.delete('/:id', (req: Request, res: Response) => userController.deleteUser(req, res));
 
 
 export default userRouter;
