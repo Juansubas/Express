@@ -6,7 +6,7 @@ export interface ITaskService {
     getTasks(userId : number): Promise<TaskDto[]>;
     getTaskById(userId : number, id: number): Promise<TaskDto | null>;
     createTask(idUser: number, user: CreateTaskDto): Promise<void>;
-    updateTask(userId : number, userUpdate: UpdateTaskDto): Promise<void>;
+    updateTask(userId : number, id : number, userUpdate: UpdateTaskDto): Promise<void>;
     deleteTask(userId : number, id: number): Promise<void>;
 }
 

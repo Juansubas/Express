@@ -1,6 +1,7 @@
 import { PrismaClient, User } from "@prisma/client";
 import { IUserRepository } from "../interfaces/user-repository.interface";
 import UserEntity from "../entities/user.entity";
+import { UpdateUserDto } from "../dtos/user/update-user.dto";
 
 
 export class UserRepository implements IUserRepository {
@@ -69,11 +70,11 @@ export class UserRepository implements IUserRepository {
             throw new Error('Error creating user from the database')
         }
     }
-    async updateUser(userUpdate: UserEntity): Promise<void> {
+    async updateUser(id:number, userUpdate: UpdateUserDto): Promise<void> {
         try {
             await this.prisma.user.update({
                 where: {
-                    id: userUpdate.id
+                    id: id
                 },
                 data: {
                     firstName : userUpdate.firstName,

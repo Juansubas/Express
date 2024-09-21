@@ -55,11 +55,11 @@ export class TaskRepository implements ITaskRepository {
             console.error('Error Creating Task', error);
         }
     }
-    async updateTask(userId : number, taskUpdate: UpdateTaskDto): Promise<void> {
+    async updateTask(userId : number, id : number, taskUpdate: UpdateTaskDto): Promise<void> {
         try {
             await this.prisma.task.update({
                 where: {
-                    id: taskUpdate.id,
+                    id: id,
                     userId: userId
                 },
                 data: {

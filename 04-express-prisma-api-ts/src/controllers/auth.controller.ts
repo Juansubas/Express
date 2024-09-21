@@ -50,7 +50,7 @@ export class AuthController {
     } catch (error) {
       console.error("error", error);
       return res
-        .status(401)
+        .status(500)
         .json(
           new ResponseDto(null, "Internal Server Error", ResponseStatus.Error)
         );

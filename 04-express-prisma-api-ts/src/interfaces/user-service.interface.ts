@@ -7,7 +7,7 @@ export interface IUserService {
     getUsers(): Promise<UserDto[]>;
     getUserById(id: number): Promise<UserDto | null>;
     createUser(user: CreateUserDto): Promise<void>;
-    updateUser(userUpdate: UpdateUserDto): Promise<void>;
+    updateUser(id: number, userUpdate: UpdateUserDto): Promise<void>;
     deleteUser(id: number): Promise<void>;
     
     validateUser(userLoginDto: LoginUserDto) : Promise<string | null>;

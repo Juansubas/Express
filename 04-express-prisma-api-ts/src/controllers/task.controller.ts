@@ -59,6 +59,10 @@ export class TaskController{
                 return res.status(404).json(new ResponseDto(null, 'Task not found', ResponseStatus.Error));
             }
 
+            if (!task.title || !task.content) {
+                return res.status(400).json(new ResponseDto(null, 'Title and content are required', ResponseStatus.Error));
+            }
+
             await this.taskService.createTask(userId, task)
 
             return res.status(200).json(new ResponseDto(null, 'Created Task Successfully', ResponseStatus.Success));
@@ -78,8 +82,8 @@ export class TaskController{
             }
 
             const id : number = parseInt(req.params.id);
-            const taskUpdate : UpdateTaskDto = { id, ...req.body};
-            await this.taskService.updateTask(userId, taskUpdate);
+            const taskUpdate : UpdateTaskDto = { ...req.body};
+            await this.taskService.updateTask(userId, id, taskUpdate);
 
             return res.status(200).json(new ResponseDto(null, 'Updating Task Successfully', ResponseStatus.Success));
         } catch (error : unknown) {

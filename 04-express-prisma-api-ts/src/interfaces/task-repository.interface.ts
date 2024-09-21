@@ -6,7 +6,7 @@ export interface ITaskRepository {
     getTasks(userId : number): Promise<TaskEntity[]>;
     getTaskById(userId : number, id: number): Promise<TaskEntity | null>;
     createTask(idUser: number, user: CreateTaskDto): Promise<void>;
-    updateTask(userId : number, userUpdate: UpdateTaskDto): Promise<void>;
+    updateTask(userId : number, id : number, userUpdate: UpdateTaskDto): Promise<void>;
     deleteTask(userId : number, id: number): Promise<void>;
 }
 

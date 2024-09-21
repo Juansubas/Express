@@ -4,6 +4,7 @@ export class UpdateUserDto {
         public lastName?: string,
         public userName?: string,
         public email?: string,
+        public password?: string ,
         public phoneNumber?: string,
         public age?: number,
         public dateOfBirth?: Date,

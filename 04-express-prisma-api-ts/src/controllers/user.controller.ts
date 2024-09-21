@@ -37,7 +37,7 @@ export default class UserController {
         try {
             const user : CreateUserDto = req.body;
             await this.userService.createUser(user);
-            return res.status(200).json(new ResponseDto(null, 'Created Task Successfully', ResponseStatus.Success));
+            return res.status(201).json(new ResponseDto(null, 'Created Task Successfully', ResponseStatus.Success));
         } catch (error : unknown) {
             console.error('error', error);
             return res.status(500).json(new ResponseDto(null, 'Internal Server Error', ResponseStatus.Error))
@@ -46,8 +46,8 @@ export default class UserController {
     async updateUser(req: Request, res: Response): Promise<Response<ResponseDto<void>>> {
         try {
             const id : number = parseInt(req.params.id);
-            const userUpdate : UpdateUserDto = { id, ...req.body};
-            await this.userService.updateUser(userUpdate);
+            const userUpdate : UpdateUserDto = req.body.id;
+            await this.userService.updateUser(id, userUpdate);
 
             return res.status(200).json(new ResponseDto(null, 'Updating User Successfully', ResponseStatus.Success));
         } catch (error : unknown) {
